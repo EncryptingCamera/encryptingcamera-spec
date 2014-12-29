@@ -66,7 +66,80 @@ The following features / functionality / threats are considered to be out of sco
 
 ## Threat Model
 
-TBD
+This is intended to be an informal threat model, intended to provide insight to users and guidance to developers.
+
+### Assumptions
+
+The following assumptions apply to all security goals.
+
+* Mobile device is secure and has not been tampered with at the time the image is captured and encrypted. If the device has been tampered with prior to image capture, the application could be modified or the API modified to save unencrypted copies or perform other actions that bypass the protections provided by this system.
+* User’s desktop device is secure, and does not contain any malware or other malicious modifications. If, at any time, the desktop device is compromised, the private key and photos stored on the device, or later decrypted on the device, should be considered compromised as well.
+
+### Security Goals
+
+* Protect images from being viewed by an unauthorized third-party.
+* Prevent images from being altered after capture.
+* Generate secure public / private keys.
+
+### Security Non-Goals
+
+These items are specifically excluded from the security profile of the system.
+
+* Preventing captured images from being deleted from the device by an unauthorized party.
+* Maintaining security of the private key or photos on a compromised desktop device.
+* Meeting security goals on a mobile device that was compromised prior to image capture.
+* Preventing a compromised mobile device from compromising the user’s desktop device.
+* Preventing an unauthorized party with access to the mobile device from determining any of the following:
+ * Number of photos taken
+ * Time & date photos were taken
+
+### Threats
+
+The following are threats that it is believed that the system is subject to. This list may not be exhaustive, and should be updated as new threats are identified.
+
+#### Backdoored Copy of Mobile Application
+
+As the official applications are all released as open source, it’s a simple task that an attacker could release a modified version that bypass the security properties of the system. This can be done in a variety of ways:
+
+* Replace the ephemeral key pair with a fix key pair, allowing an attacker to decrypt images without the user’s private key.
+* Save a copy of the image to a different location, before encryption is performed.
+* Add a remote access shell, or other backdoor to allow the attacker to perform attacks against the mobile device, or the desktop device when connected.
+
+The exact impact varies by method used, but in any case would cause a bypass of the intended security goals.
+
+**Mitigation / Solution:** TBD.
+
+#### Malicious Mobile Application Update
+
+An attacker that was able to acquire credentials needed to publish an application update, could modify the application to add malicious code. The attacker would be able to perform actions similar to the above.
+
+**Mitigation / Solution:** TBD.
+
+#### Cryptographic Breakthrough
+
+Should a flaw be found in the selected cryptographic primitives be broken, it would allow an attacker to access encrypted data and/or modify existing files.
+
+**Mitigation / Solution:** The primitives used have been well studied and are believed to be generally secure. The likelihood of such an event is low.
+
+Should such an event occur, it would be necessary to update the applications to use a different set of primitives.
+
+#### Image Replacement
+
+An attacker that gains access to a mobile device could remove images, and replace them with other images.
+
+From the file information, the attacker would know when an image was taken, they could use this information to craft a replacement file that includes the appropriate EXIF data to indicate that it was taken at the desired time. The crafted image could replace existing images.
+
+This could be used to replace images that are suspected to be sensitive, without the user being aware.
+
+**Mitigation / Solution:** TBD.
+
+#### Malicious Image Replacement
+
+An attacker that gains access to a mobile device could place specially crafted images that leverage vulnerabilities in image viewers, the GUI applications, or others.
+
+Such an attack could compromise the user’s desktop device, bypassing the security of the system.
+
+**Mitigation / Solution:** TBD.
 
 ## Key Escrow & Recovery, Backdoors, Third-Party Access
 
