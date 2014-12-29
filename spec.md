@@ -49,12 +49,12 @@ All key pairs will be randomly generated; deterministic generation should not be
 Image files will be saved in the following format:
 
 * `ver` - The file format version, one byte, the current version is `0x1`
-* `pub` - The ephemeral public key that corresponds to the ephemeral private key used during encryption. This is required to perform the decryption.
-* `data` - Encrypted JPEG data.
+* `pub` - The ephemeral public key that corresponds to the ephemeral private key used during encryption. This is required to perform the decryption. 32 bytes.
+* `ciphertext` - Encrypted JPEG data. File length minus 33 bytes.
 
-File will be written in the following format:
+File will be written in the following format (no encoding will be applied):
 
-`ver || pub || data`
+`ver || pub || ciphertext`
 
 ## Non-Goals
 
