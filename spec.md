@@ -8,9 +8,11 @@ Many people find themselves in situations where they need to take photographs, t
 
 This project aims to provide applications for common platforms, to allow the public to take photographs that are encrypted using the public key of their choosing. The corresponding private key may be on their desktop, stored offline at a secure location, or in the control of another person. Only with the corresponding private key, can the photographs be decrypted and viewed.
 
+In general, the system is intended to be single-user. While it’s possible for the user taking the photographs to use a public key that corresponds to a private key that they don’t control - the normal use cases are that the user will control the private key, and will decrypt images when at a safer place or time.
+
 ## How this is achieved
 
-The system is made up of two applications - a desktop application (Windows, OSX, *nix), and a mobile application (Andriod, iOS). The applications will have the following responsibilities:
+The system is made up of two applications - a desktop application (Windows, OSX, *nix), and a mobile application (Android, iOS). The applications will have the following responsibilities:
 
 **Desktop:**
 * Generate Public/Private Key Pair
@@ -63,6 +65,7 @@ The following features / functionality / threats are considered to be out of sco
 * Video - Supporting video will add quite a few complications and needs additional research to determine feasibility.
 * Insecure Desktops - No attempt will be made by the desktop applications to protect the secrecy of the images or keys should the desktop be insecure. The presence of malware or other backdoors will render moot the security provided by this system; at this time it is beyond the scope of this project to address this situation.
 * Insecure Mobile Devices (prior to image capture) - If the mobile device has been tampered with, such as the installation of malware, it is impossible to know if the application or image capture API has been modified. As such, this can only provide protection after the image has been captured and encrypted.
+* Multi-User Support - The system is intended to be used only by a single user, multi-user support (communication, user validation, etc.) are not supported at this time. This may change in the future, based on user feedback and requests.
 
 ## Threat Model
 
@@ -92,6 +95,7 @@ These items are specifically excluded from the security profile of the system.
 * Preventing an unauthorized party with access to the mobile device from determining any of the following:
  * Number of photos taken
  * Time & date photos were taken
+* Protecting the user from using a third-party public key that’s been intercepted / altered. If the user decides to use a public key that corresponds to a private key that they don’t control, the user should verify the public key through trusted channels. Issues relating to multi-user / third-party use are not in scope at this time.
 
 ### Threats
 
